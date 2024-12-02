@@ -1,0 +1,572 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="hhModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="User" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="age" Type="int" />
+          <Property Name="work_experience" Type="int" Nullable="false" />
+          <Property Name="education" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Company" Type="int" Nullable="false" />
+          <Property Name="User" Type="int" Nullable="false" />
+          <Property Name="DataUs" Type="date" Nullable="false" />
+          <Property Name="DataUv" Type="date" />
+        </EntityType>
+        <EntityType Name="feedback">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vacancy" Type="int" />
+          <Property Name="CV" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view '2hh.dbo.Table_2' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Table_2">
+          <Property Name="ID" Type="nchar" MaxLength="10" />
+        </EntityType>-->
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="70" />
+          <Property Name="role" Type="int" />
+        </EntityType>
+        <EntityType Name="Vacancy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="company" Type="int" Nullable="false" />
+          <Property Name="profession" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="min_experience" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Company_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="CV" Type="Self.CV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV">
+              <PropertyRef Name="user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employed_CV">
+          <End Role="CV" Type="Self.CV" Multiplicity="1" />
+          <End Role="Employed" Type="Self.Employed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employed">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employed_Vacancy">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="1" />
+          <End Role="Employed" Type="Self.Employed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employed">
+              <PropertyRef Name="Company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feedback_CV">
+          <End Role="CV" Type="Self.CV" Multiplicity="0..1" />
+          <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="feedback">
+              <PropertyRef Name="CV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feedback_Vacancy">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="0..1" />
+          <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="feedback">
+              <PropertyRef Name="vacancy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacancy_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vacancy">
+              <PropertyRef Name="company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hhModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CV" EntityType="Self.CV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employed" EntityType="Self.Employed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="feedback" EntityType="Self.feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vacancy" EntityType="Self.Vacancy" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Company_User" Association="Self.FK_Company_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_User" Association="Self.FK_CV_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="CV" EntitySet="CV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employed_CV" Association="Self.FK_Employed_CV">
+            <End Role="CV" EntitySet="CV" />
+            <End Role="Employed" EntitySet="Employed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employed_Vacancy" Association="Self.FK_Employed_Vacancy">
+            <End Role="Vacancy" EntitySet="Vacancy" />
+            <End Role="Employed" EntitySet="Employed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feedback_CV" Association="Self.FK_feedback_CV">
+            <End Role="CV" EntitySet="CV" />
+            <End Role="feedback" EntitySet="feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feedback_Vacancy" Association="Self.FK_feedback_Vacancy">
+            <End Role="Vacancy" EntitySet="Vacancy" />
+            <End Role="feedback" EntitySet="feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacancy_Company" Association="Self.FK_Vacancy_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Vacancy" EntitySet="Vacancy" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hhModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Company_User" FromRole="Company" ToRole="User" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK_Vacancy_Company" FromRole="Company" ToRole="Vacancy" />
+        </EntityType>
+        <EntityType Name="CV">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="work_experience" Type="Int32" Nullable="false" />
+          <Property Name="education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_CV_User" FromRole="CV" ToRole="User" />
+          <NavigationProperty Name="Employeds" Relationship="Self.FK_Employed_CV" FromRole="CV" ToRole="Employed" />
+          <NavigationProperty Name="feedbacks" Relationship="Self.FK_feedback_CV" FromRole="CV" ToRole="feedback" />
+        </EntityType>
+        <EntityType Name="Employed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Company" Type="Int32" Nullable="false" />
+          <Property Name="User" Type="Int32" Nullable="false" />
+          <Property Name="DataUs" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DataUv" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="CV" Relationship="Self.FK_Employed_CV" FromRole="Employed" ToRole="CV" />
+          <NavigationProperty Name="Vacancy" Relationship="Self.FK_Employed_Vacancy" FromRole="Employed" ToRole="Vacancy" />
+        </EntityType>
+        <EntityType Name="feedback">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vacancy" Type="Int32" />
+          <Property Name="CV" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CV1" Relationship="Self.FK_feedback_CV" FromRole="feedback" ToRole="CV" />
+          <NavigationProperty Name="Vacancy1" Relationship="Self.FK_feedback_Vacancy" FromRole="feedback" ToRole="Vacancy" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="role" Type="Int32" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK_Company_User" FromRole="User" ToRole="Company" />
+          <NavigationProperty Name="CVs" Relationship="Self.FK_CV_User" FromRole="User" ToRole="CV" />
+          <NavigationProperty Name="Role1" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Vacancy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="company" Type="Int32" Nullable="false" />
+          <Property Name="profession" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="min_experience" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company1" Relationship="Self.FK_Vacancy_Company" FromRole="Vacancy" ToRole="Company" />
+          <NavigationProperty Name="Employeds" Relationship="Self.FK_Employed_Vacancy" FromRole="Vacancy" ToRole="Employed" />
+          <NavigationProperty Name="feedbacks" Relationship="Self.FK_feedback_Vacancy" FromRole="Vacancy" ToRole="feedback" />
+        </EntityType>
+        <Association Name="FK_Company_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vacancy_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vacancy">
+              <PropertyRef Name="company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="CV" Type="Self.CV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV">
+              <PropertyRef Name="user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employed_CV">
+          <End Role="CV" Type="Self.CV" Multiplicity="1" />
+          <End Role="Employed" Type="Self.Employed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employed">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feedback_CV">
+          <End Role="CV" Type="Self.CV" Multiplicity="0..1" />
+          <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="feedback">
+              <PropertyRef Name="CV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employed_Vacancy">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="1" />
+          <End Role="Employed" Type="Self.Employed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Employed">
+              <PropertyRef Name="Company" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_feedback_Vacancy">
+          <End Role="Vacancy" Type="Self.Vacancy" Multiplicity="0..1" />
+          <End Role="feedback" Type="Self.feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancy">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="feedback">
+              <PropertyRef Name="vacancy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hh2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="CVs" EntityType="Self.CV" />
+          <EntitySet Name="Employeds" EntityType="Self.Employed" />
+          <EntitySet Name="feedbacks" EntityType="Self.feedback" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Vacancies" EntityType="Self.Vacancy" />
+          <AssociationSet Name="FK_Company_User" Association="Self.FK_Company_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vacancy_Company" Association="Self.FK_Vacancy_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Vacancy" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_User" Association="Self.FK_CV_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CV" EntitySet="CVs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employed_CV" Association="Self.FK_Employed_CV">
+            <End Role="CV" EntitySet="CVs" />
+            <End Role="Employed" EntitySet="Employeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feedback_CV" Association="Self.FK_feedback_CV">
+            <End Role="CV" EntitySet="CVs" />
+            <End Role="feedback" EntitySet="feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employed_Vacancy" Association="Self.FK_Employed_Vacancy">
+            <End Role="Vacancy" EntitySet="Vacancies" />
+            <End Role="Employed" EntitySet="Employeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_feedback_Vacancy" Association="Self.FK_feedback_Vacancy">
+            <End Role="Vacancy" EntitySet="Vacancies" />
+            <End Role="feedback" EntitySet="feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="hhModelStoreContainer" CdmEntityContainer="hh2Entities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="hhModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="User" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CVs">
+            <EntityTypeMapping TypeName="hhModel.CV">
+              <MappingFragment StoreEntitySet="CV">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="work_experience" ColumnName="work_experience" />
+                <ScalarProperty Name="education" ColumnName="education" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employeds">
+            <EntityTypeMapping TypeName="hhModel.Employed">
+              <MappingFragment StoreEntitySet="Employed">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="DataUs" ColumnName="DataUs" />
+                <ScalarProperty Name="DataUv" ColumnName="DataUv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="feedbacks">
+            <EntityTypeMapping TypeName="hhModel.feedback">
+              <MappingFragment StoreEntitySet="feedback">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="vacancy" ColumnName="vacancy" />
+                <ScalarProperty Name="CV" ColumnName="CV" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="hhModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="hhModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="hhModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacancies">
+            <EntityTypeMapping TypeName="hhModel.Vacancy">
+              <MappingFragment StoreEntitySet="Vacancy">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="company" ColumnName="company" />
+                <ScalarProperty Name="profession" ColumnName="profession" />
+                <ScalarProperty Name="min_experience" ColumnName="min_experience" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

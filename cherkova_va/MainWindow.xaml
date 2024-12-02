@@ -1,0 +1,22 @@
+﻿<Window x:Class="cherkova_va.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:cherkova_va"
+        mc:Ignorable="d"
+    Title="MainWindow" Height="450" Width="800" Icon="/Resources/icon2.png" ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#FF76E383">
+            <Image Width="45" Height="45" HorizontalAlignment="Left" Margin="5" Source="/Resources/free-icon-compact-car-4391570.png"/>
+            <Button x:Name="btnBack"  HorizontalAlignment="Right" Content="Назад" Click="btnBack_Click"/>
+        </Grid>
+        <Frame x:Name="FrmMain" Grid.Row="1" NavigationUIVisibility="Hidden" ContentRendered="FrmMain_ContentRendered" Navigated="FrmMain_Navigated"/>
+
+    </Grid>
+</Window>
