@@ -15,6 +15,7 @@ namespace cherkova_va.Model
     
     public partial class hh2Entities : DbContext
     {
+        private static hh2Entities _context;
         public hh2Entities()
             : base("name=hh2Entities")
         {
@@ -24,7 +25,15 @@ namespace cherkova_va.Model
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+        public static hh2Entities GetContext()
+        {
+            if (_context == null)
+            {
+                _context = new hh2Entities();
+            }
+            return _context;
+        }
+
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<CV> CVs { get; set; }
         public virtual DbSet<Employed> Employeds { get; set; }

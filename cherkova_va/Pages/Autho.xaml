@@ -23,10 +23,11 @@
             <TextBox Visibility="Hidden" x:Name="txtboxCaptha"/>
             <TextBlock HorizontalAlignment="Center" Visibility="Hidden" x:Name="txtBlockTimer"/>
             <StackPanel Orientation="Horizontal" Height="80" HorizontalAlignment="Center">
-                <Button x:Name="btnEnterGuests" Margin="5,15,5,5" Content="Log in as guest" Click="btnEnterGuests_Click"/>
+                <Button x:Name="btnEnterGuests" Margin="5,15,5,5" Content="Log in as guest" Click="btnEnterGuests_Click" RenderTransformOrigin="0.62,0.538"/>
                 <Button x:Name="btnEnter" Margin="5,15,5,5" Content="Log in" Click="btnEnter_Click"/>
             </StackPanel>
         </StackPanel>
         <Button x:Name="btnBack" Content="Back" Grid.Column="2" Margin="130,10,10,400" Click="btnBack_Click"/>
+        <TextBlock x:Name="tblTimer" Grid.Column="1" Foreground="Red" Visibility="Hidden" HorizontalAlignment="Center" Margin="0,28,0,0" TextWrapping="Wrap" Text="Время до сброса попыток входа: 0:00" VerticalAlignment="Top"/>
     </Grid>
 </Page>

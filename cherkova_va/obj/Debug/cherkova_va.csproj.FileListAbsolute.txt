@@ -18,3 +18,9 @@ C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\cherkov
 C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\cherkova_va.pdb
 C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\Pages\Client.g.cs
 C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\Pages\Client.baml
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\bin\Debug\EntityFramework.dll
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\bin\Debug\EntityFramework.xml
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\cherkova_va_Content.g.cs
+C:\Users\Minahomis\Desktop\C#\Homework\cherkova_va\cherkova_va\obj\Debug\cherkova.AE3B9478.Up2Date

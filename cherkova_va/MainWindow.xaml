@@ -14,7 +14,7 @@
 
         <Grid Grid.Row="0" Background="#FF76E383">
             <Image Width="45" Height="45" HorizontalAlignment="Left" Margin="5" Source="/Resources/free-icon-compact-car-4391570.png"/>
-            <Button x:Name="btnBack"  HorizontalAlignment="Right" Content="Назад" Click="btnBack_Click"/>
+            <Button x:Name="btnBack"  HorizontalAlignment="Left" Content="Назад" Click="btnBack_Click" Height="NaN" Margin="675,10,0,10"/>
         </Grid>
         <Frame x:Name="FrmMain" Grid.Row="1" NavigationUIVisibility="Hidden" ContentRendered="FrmMain_ContentRendered" Navigated="FrmMain_Navigated"/>
 
